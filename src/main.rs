@@ -18,7 +18,7 @@ struct Model {
 }
 
 enum Msg {
-    GotInput(String),
+    GetInput(String),
     Next,
     Nope,
 }
@@ -61,12 +61,12 @@ impl Component for Model {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::GotInput(new_value) => {
+            Msg::GetInput(new_value) => {
                 self.value = new_value.trim().parse().unwrap();
             }
             Msg::Next => {
                 //Check
-                self.result = check(&self.list[self.list_index], &self.value);
+                self.result = check(self.list.get(self.list_index).unwrap(), &self.value);
 
                 //Change value, label, list_index
                 if self.list_index >= self.list.len() - 1 {
@@ -75,7 +75,7 @@ impl Component for Model {
 
                 self.value = "".into();
                 self.list_index += 1;
-                self.label = self.list[self.list_index].clone();
+                self.label = self.list.get(self.list_index).unwrap().into();
             }
             Msg::Nope => {}
         }
@@ -92,7 +92,7 @@ impl Component for Model {
                     <input
                         type="text"
                         value=&self.value
-                        oninput=|e| Msg::GotInput(e.value)
+                        oninput=|e| Msg::GetInput(e.value)
                         onkeypress=|e| {
                             if e.key() == "Enter" {Msg::Next} else {Msg::Nope}}/>
                 </div>
