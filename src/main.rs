@@ -3,8 +3,7 @@
 use rstyping::*;
 
 use yew::events::IKeyboardEvent;
-use yew::services::reader::{File, FileData, ReaderService, ReaderTask};
-use yew::{html, ChangeData, Component, ComponentLink, Html, ShouldRender};
+use yew::{html, Component, ComponentLink, Html, ShouldRender};
 
 fn main() {
     yew::start_app::<Model>();
@@ -16,27 +15,19 @@ struct Model {
     list: Vec<String>,
     list_index: usize,
     result: String,
-
-    link: ComponentLink<Model>,
-    reader: ReaderService,
-    tasks: Vec<ReaderTask>,
-    files: Vec<String>,
 }
 
 enum Msg {
     GetInput(String),
     Next,
     Nope,
-
-    Loaded(FileData),
-    Files(Vec<File>),
 }
 
 impl Component for Model {
     type Message = Msg;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
         let content = "그래도 지구는 돈다
 나는 생각한다 고로 나는 존재한다
 나치가 그들을 덮쳤을 때
@@ -65,11 +56,6 @@ impl Component for Model {
             list: manufacture_file(&content),
             list_index: 0,
             result: "".into(),
-
-            reader: ReaderService::new(),
-            link,
-            tasks: vec![],
-            files: vec![],
         }
     }
 
@@ -92,20 +78,6 @@ impl Component for Model {
                 self.label = self.list.get(self.list_index).unwrap().into();
             }
             Msg::Nope => {}
-
-            Msg::Loaded(file) => {
-                let info = format!("file: {:?}", file);
-                self.files.push(info);
-            }
-            Msg::Files(files) => {
-                for file in files.into_iter() {
-                    let task = {
-                        let callback = self.link.send_back(Msg::Loaded);
-                        self.reader.read_file(file, callback)
-                    };
-                    self.tasks.push(task);
-                }
-            }
         }
         true
     }
@@ -123,16 +95,6 @@ impl Component for Model {
                         oninput=|e| Msg::GetInput(e.value)
                         onkeypress=|e| {
                             if e.key() == "Enter" {Msg::Next} else {Msg::Nope}}/>
-
-                    <input
-                        type="file"
-                        onchange=|value| {
-                            let mut result = Vec::new();
-                            if let ChangeData::Files(files) = value {
-                                result.extend(files);
-                            }
-                            Msg::Files(result)
-                        }/>
                 </div>
                 <div>
                     <label>{&self.result}</label>
