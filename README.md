@@ -5,6 +5,7 @@ A typing test program written with rust
 ```
 git clone https://github.com/broot5/rstyping.git
 cd rstyping
+#if you don not have cargo-web, install cargo-web by cargo install cargo-web
 cargo web start
 ```
 
