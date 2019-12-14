@@ -1,5 +1,7 @@
 use strsim::normalized_levenshtein;
 
+use rand::seq::SliceRandom;
+
 pub fn manufacture_file(content: &String) -> Vec<String> {
     let content: Vec<&str> = content.split("\n").collect();
 
@@ -11,6 +13,8 @@ pub fn manufacture_file(content: &String) -> Vec<String> {
 
     result.insert(0, "".into());
     result.pop();
+
+    result.shuffle(&mut rand::thread_rng());
 
     result
 }
