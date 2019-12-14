@@ -1,5 +1,5 @@
 # :keyboard: rstyping
-typing test program written with rust
+A typing test program written with rust
 
 ## How to Use
 ```
