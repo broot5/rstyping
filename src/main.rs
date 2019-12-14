@@ -13,7 +13,7 @@ fn main() {
 
 struct Model {
     value: String,
-    label: String,
+    text: String,
     list: Vec<String>,
     list_index: usize,
     result: String,
@@ -34,7 +34,7 @@ impl Component for Model {
 
         Model {
             value: "".into(),
-            label: "Press Enter to Start".into(),
+            text: "Press Enter to Start".into(),
             list: manufacture_file(&content),
             list_index: 0,
             result: "".into(),
@@ -50,14 +50,14 @@ impl Component for Model {
                 //Check
                 self.result = check(self.list.get(self.list_index).unwrap(), &self.value);
 
-                //Change value, label, list_index
+                //Change value, text, list_index
                 if self.list_index >= self.list.len() - 1 {
                     self.list_index = 0;
                 }
 
                 self.value = "".into();
                 self.list_index += 1;
-                self.label = self.list.get(self.list_index).unwrap().into();
+                self.text = self.list.get(self.list_index).unwrap().into();
             }
             Msg::Nope => {}
         }
@@ -68,7 +68,7 @@ impl Component for Model {
         html! {
             <div>
                 <div>
-                    <label>{&self.label}</label>
+                    <label>{&self.text}</label>
                 </div>
                 <div>
                     <input
