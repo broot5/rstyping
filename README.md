@@ -1,6 +1,8 @@
 # :keyboard: rstyping
 A typing test program written with rust
 
+:warning: This program's sentences include some of the words of morally wrong people.
+
 ## How to Use
 ```
 git clone https://github.com/broot5/rstyping.git
