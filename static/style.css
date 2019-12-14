@@ -2,18 +2,21 @@ label {
   display: block;
   text-align: center;
   line-height: 200%;
-  font-size: 3em;
+  font-size: 2em;
   width: fit-content;
-  margin-right: auto;
-  margin-left: auto;
+  margin: 5%;
 }
 
 input {
   display: block;
   text-align: justify;
   line-height: 200%;
-  font-size: 3em;
-  width: 70vw;
-  margin-right: auto;
+  font-size: 2em;
+  width: 60vw;
   margin-left: auto;
+  margin-right: auto;
+}
+
+.container {
+  margin-top: 5%;
 }

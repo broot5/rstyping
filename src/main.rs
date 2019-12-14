@@ -66,11 +66,11 @@ impl Component for Model {
 
     fn view(&self) -> Html<Self> {
         html! {
-            <div>
+            <div class="container">
                 <div>
                     <label>{&self.text}</label>
                 </div>
-                <div>
+                <div class="input">
                     <input
                         type="text"
                         value=&self.value
