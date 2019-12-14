@@ -44,7 +44,7 @@ impl Component for Model {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Msg::GetInput(new_value) => {
-                self.value = new_value.trim().parse().unwrap();
+                self.value = new_value;
             }
             Msg::Next => {
                 //Check
