@@ -1,17 +1,25 @@
 # :keyboard: rstyping
-A typing test program written with rust
+
+You can try it [here](https://broot5.github.io/rstyping/).
+
+A typing test program written with rust.
 
 :warning: This program's sentences include some of the words of morally wrong people.
 
-## How to Use
-```
+:warning: This program only certains korean sentences.
+
+## Features
+- [x] GUI
+- [x] Showing typing accuracy
+- [ ] Showing typing speed
+- [ ] Showing graph of typing speed and accuracy
+
+## Build
+
+```bash
 git clone https://github.com/broot5/rstyping.git
 cd rstyping
-#if you don not have cargo-web, install cargo-web by cargo install cargo-web
+#if cargo-web is not instlled, install cargo-web by 
+#cargo install cargo-web
 cargo web start
 ```
-
-## To Do
-- [x] GUI(WASM)
-- [ ] show the speed of typing speed
-- [x] show typing accuracy
