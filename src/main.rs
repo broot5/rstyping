@@ -68,11 +68,12 @@ impl Component for Model {
         html! {
             <div class="container">
                 <div>
-                    <label>{&self.text}</label>
+                    <label for="input">{&self.text}</label>
                 </div>
-                <div class="input">
+                <div>
                     <input
                         type="text"
+                        id="input"
                         value=&self.value
                         oninput=|e| Msg::GetInput(e.value)
                         onkeypress=|e| {

@@ -8,12 +8,18 @@ label {
 
 input {
   display: block;
-  text-align: justify;
   line-height: 200%;
   font-size: 2em;
   width: 60vw;
   margin-left: auto;
   margin-right: auto;
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+}
+
+input:focus {
+  border-color: #9e9e9e;
 }
 
 .container {
