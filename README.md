@@ -19,7 +19,7 @@ A typing test program written with rust.
 ```bash
 git clone https://github.com/broot5/rstyping.git
 cd rstyping
-#if cargo-web is not instlled, install cargo-web by 
+#if cargo-web is not installed, install cargo-web by
 #cargo install cargo-web
 cargo web start
 ```
