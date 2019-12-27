@@ -4,6 +4,8 @@ mod texts;
 
 use rstyping::*;
 
+use instant::Instant;
+
 use yew::events::IKeyboardEvent;
 use yew::{html, Component, ComponentLink, Html, ShouldRender};
 
@@ -16,6 +18,7 @@ struct Model {
     text: String,
     list: Vec<String>,
     list_index: usize,
+    timer: Instant,
     result: String,
 }
 
@@ -37,6 +40,7 @@ impl Component for Model {
             text: "Press Enter to Start".into(),
             list: manufacture_file(&content),
             list_index: 0,
+            timer: Instant::now(),
             result: "".into(),
         }
     }
@@ -47,8 +51,17 @@ impl Component for Model {
                 self.value = new_value;
             }
             Msg::Next => {
+                //Get elapsed time and start new timer
+                let elapsed_time: f64 = self.timer.elapsed().as_secs_f64();
+                self.timer = Instant::now();
+
                 //Check
-                self.result = check(self.list.get(self.list_index).unwrap(), &self.value);
+                self.result = check(
+                    self.list.get(self.list_index).unwrap(),
+                    &self.value,
+                    50, //a meaningless number
+                    elapsed_time,
+                );
 
                 //Change value, text, list_index
                 if self.list_index >= self.list.len() - 1 {

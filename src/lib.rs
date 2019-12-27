@@ -19,10 +19,18 @@ pub fn manufacture_file(content: &String) -> Vec<String> {
     result
 }
 
-pub fn check(text: &String, input: &String) -> String {
-    format!("{}%", get_accuracy(&text, &input))
+pub fn check(text: &String, input: &String, typed: usize, elapsed_time: f64) -> String {
+    format!(
+        "{}% {}",
+        get_accuracy(&text, &input),
+        get_typing_speed(typed, elapsed_time)
+    )
 }
 
 pub fn get_accuracy(text: &String, input: &String) -> usize {
     (normalized_levenshtein(text, input) * 100_f64) as usize
+}
+
+pub fn get_typing_speed(typed: usize, elapsed_time: f64) -> f64 {
+    (typed as f64 / elapsed_time).round()
 }

@@ -18,3 +18,4 @@ path = "src/lib.rs"
 yew = "0.10.0"
 strsim = "0.9.2"
 rand = { version = "0.7.2", features = ["stdweb"] }
+instant = { version = "0.1.2", features = [ "stdweb" ] }
