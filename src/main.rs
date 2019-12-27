@@ -4,8 +4,8 @@ mod texts;
 
 use rstyping::*;
 
+use hangul::HangulExt;
 use instant::Instant;
-
 use yew::events::IKeyboardEvent;
 use yew::{html, Component, ComponentLink, Html, ShouldRender};
 
@@ -18,6 +18,7 @@ struct Model {
     text: String,
     list: Vec<String>,
     list_index: usize,
+    typed: usize,
     timer: Instant,
     result: String,
 }
@@ -40,6 +41,7 @@ impl Component for Model {
             text: "Press Enter to Start".into(),
             list: manufacture_file(&content),
             list_index: 0,
+            typed: 0,
             timer: Instant::now(),
             result: "".into(),
         }
@@ -55,22 +57,35 @@ impl Component for Model {
                 let elapsed_time: f64 = self.timer.elapsed().as_secs_f64();
                 self.timer = Instant::now();
 
+                //Get typed
+                for i in self.value.chars() {
+                    match i.is_syllable() {
+                        true => match i.is_open().unwrap() {
+                            true => self.typed += 2,
+                            false => self.typed += 3,
+                        },
+                        false => self.typed += 1,
+                    }
+                }
+
                 //Check
                 self.result = check(
-                    self.list.get(self.list_index).unwrap(),
+                    &self.list.get(self.list_index).unwrap(),
                     &self.value,
-                    50, //a meaningless number
+                    self.typed,
                     elapsed_time,
                 );
 
-                //Change value, text, list_index
+                //Change list_index
+                self.list_index += 1;
                 if self.list_index >= self.list.len() - 1 {
                     self.list_index = 0;
                 }
 
+                //init
                 self.value = "".into();
-                self.list_index += 1;
                 self.text = self.list.get(self.list_index).unwrap().into();
+                self.typed = 0;
             }
             Msg::Nope => {}
         }

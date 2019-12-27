@@ -32,5 +32,9 @@ pub fn get_accuracy(text: &String, input: &String) -> usize {
 }
 
 pub fn get_typing_speed(typed: usize, elapsed_time: f64) -> f64 {
-    (typed as f64 / elapsed_time).round()
+    if typed > 0 {
+        (typed as f64 / elapsed_time * 60_f64).round()
+    } else {
+        std::f64::INFINITY
+    }
 }
