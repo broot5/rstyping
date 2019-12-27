@@ -11,7 +11,7 @@ A typing test program written with rust.
 ## Features
 - [x] GUI
 - [x] Showing typing accuracy
-- [ ] Showing typing speed
+- [x] Showing typing speed
 - [ ] Showing graph of typing speed and accuracy
 
 ## Build
