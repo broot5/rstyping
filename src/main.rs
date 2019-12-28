@@ -69,11 +69,10 @@ impl Component for Model {
                 }
 
                 //Check
-                self.result = format!(
-                    "{}% {}",
-                    get_accuracy(&self.list.get(self.list_index).unwrap(), &self.value),
-                    get_typing_speed(self.typed, elapsed_time)
-                );
+                let accuracy = get_accuracy(&self.list.get(self.list_index).unwrap(), &self.value);
+                let typing_speed = get_typing_speed(self.typed, elapsed_time);
+
+                self.result = format!("{}% {}", accuracy, typing_speed);
 
                 //Change list_index
                 self.list_index += 1;
