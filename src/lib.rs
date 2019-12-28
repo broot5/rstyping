@@ -1,6 +1,5 @@
-use strsim::normalized_levenshtein;
-
 use rand::seq::SliceRandom;
+use strsim::normalized_levenshtein;
 
 pub fn manufacture_file(content: &String) -> Vec<String> {
     let content: Vec<&str> = content.split("\n").collect();
