@@ -20,6 +20,7 @@ struct Model {
     list_index: usize,
     typed: usize,
     timer: Instant,
+    elapsed_time: f64,
     result: String,
 }
 
@@ -43,6 +44,7 @@ impl Component for Model {
             list_index: 0,
             typed: 0,
             timer: Instant::now(),
+            elapsed_time: 0_f64,
             result: "".into(),
         }
     }
@@ -54,7 +56,7 @@ impl Component for Model {
             }
             Msg::Next => {
                 //Get elapsed time and start new timer
-                let elapsed_time: f64 = self.timer.elapsed().as_secs_f64();
+                self.elapsed_time = self.timer.elapsed().as_secs_f64();
                 self.timer = Instant::now();
 
                 //Get typed
@@ -70,7 +72,7 @@ impl Component for Model {
 
                 //Check
                 let accuracy = get_accuracy(&self.list.get(self.list_index).unwrap(), &self.value);
-                let typing_speed = get_typing_speed(self.typed, elapsed_time);
+                let typing_speed = get_typing_speed(self.typed, self.elapsed_time);
 
                 self.result = format!("{}% {}", accuracy, typing_speed);
 
