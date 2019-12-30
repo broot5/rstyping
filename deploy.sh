@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git checkout gh-pages
+git checkout master
 cargo web deploy --release
 mv target/deploy/* ./
 git add index.html style.css rstyping.js rstyping.wasm
