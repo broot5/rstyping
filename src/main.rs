@@ -53,6 +53,8 @@ impl Component for Model {
         match msg {
             Msg::GetInput(new_value) => {
                 self.value = new_value;
+
+                true
             }
             Msg::Next => {
                 //Get elapsed time and start new timer
@@ -86,10 +88,11 @@ impl Component for Model {
                 self.value = "".into();
                 self.text = self.list.get(self.list_index).unwrap().into();
                 self.typed = 0;
+
+                true
             }
-            Msg::Nope => {}
+            Msg::Nope => false,
         }
-        true
     }
 
     fn view(&self) -> Html<Self> {
