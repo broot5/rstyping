@@ -1,6 +1,6 @@
 # :keyboard: rstyping
 
-You can try it [here](https://broot5.github.io/rstyping/).
+You can try it [here](https://broot5.github.io/rstyping/dist/).
 
 A typing test program written with rust.
 
