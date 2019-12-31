@@ -19,5 +19,7 @@ A typing test program written with rust.
 ```bash
 git clone https://github.com/broot5/rstyping.git
 cd rstyping
+
+yarn install
 yarn run build
 ```
