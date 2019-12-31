@@ -1,18 +1,11 @@
-#![recursion_limit = "128"]
-
-mod texts;
-
-use rstyping::*;
+mod text;
+mod util;
 
 use instant::Instant;
 use yew::events::IKeyboardEvent;
 use yew::{html, Component, ComponentLink, Html, ShouldRender};
 
-fn main() {
-    yew::start_app::<Model>();
-}
-
-struct Model {
+pub struct Model {
     value: String,
     text: String,
     list: Vec<String>,
@@ -22,7 +15,7 @@ struct Model {
     result: String,
 }
 
-enum Msg {
+pub enum Msg {
     GetInput(String),
     Next,
     Nope,
@@ -33,12 +26,12 @@ impl Component for Model {
     type Properties = ();
 
     fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
-        let content = texts::texts();
+        let content = text::texts();
 
         Model {
             value: "".into(),
             text: "Press Enter to Start".into(),
-            list: manufacture_file(&content),
+            list: util::manufacture_file(&content),
             list_index: 0,
             timer: Instant::now(),
             elapsed_time: 0_f64,
@@ -59,8 +52,9 @@ impl Component for Model {
                 self.timer = Instant::now();
 
                 //Check
-                let accuracy = get_accuracy(&self.list.get(self.list_index).unwrap(), &self.value);
-                let typing_speed = get_typing_speed(&self.value, self.elapsed_time);
+                let accuracy =
+                    util::get_accuracy(&self.list.get(self.list_index).unwrap(), &self.value);
+                let typing_speed = util::get_typing_speed(&self.value, self.elapsed_time);
 
                 self.result = format!("{}% {}", accuracy, typing_speed);
 
