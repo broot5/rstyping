@@ -78,19 +78,22 @@ impl Component for Model {
         html! {
             <div class="container">
                 <div>
-                    <label for="input">{&self.text}</label>
+                    <label for="mainInput">{&self.text}</label>
                 </div>
                 <div>
                     <input
                         type="text"
-                        id="input"
+                        id="mainInput"
                         value=&self.value
                         oninput=|e| Msg::GetInput(e.value)
                         onkeypress=|e| {
                             if e.key() == "Enter" {Msg::Next} else {Msg::Nope}}/>
                 </div>
                 <div>
-                    <label>{&self.result}</label>
+                    <label id="result">{&self.result}</label>
+                </div>
+                <div>
+                    <canvas id="chart"></canvas>
                 </div>
             </div>
         }
