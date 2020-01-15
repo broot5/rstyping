@@ -1,5 +1,7 @@
 import Chart from "chart.js";
 
+main();
+
 async function main() {
   await import("./pkg").then(module => {
     module.run_app();
@@ -53,35 +55,32 @@ async function main() {
   let accuracyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   let typingSpeedData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-  setInterval(function() {
-    let tempArray = document.getElementById("result").innerText.split(" ");
-
-    let accuracy = parseInt(tempArray[0].slice(0));
-    let typingSpeed = parseInt(tempArray[1]);
-
-    if (isNaN(accuracy) || isNaN(typingSpeed)) {
-      accuracy = 0;
-      typingSpeed = 0;
-    }
-
-    accuracyData.shift();
-    typingSpeedData.shift();
-
-    accuracyData.push(accuracy);
-    typingSpeedData.push(typingSpeed);
-
-    console.log(aChart.data.datasets[0].data);
-    console.log(aChart.data.datasets[1].data);
-
-    redrawChart(aChart, accuracyData, typingSpeedData);
-  }, 1000);
-
-  function redrawChart(chart, accuracyData, typingSpeedData) {
-    chart.data.datasets[0].data = typingSpeedData;
-    chart.data.datasets[1].data = accuracyData;
-
-    chart.update();
-  }
+  updateData(aChart, accuracyData, typingSpeedData); //For test; call updateData on js available, this line has to remove
 }
 
-main();
+function updateData(chart, accuracyData, typingSpeedData) {
+  let tempArray = document.getElementById("result").innerText.split(" ");
+
+  let accuracy = parseInt(tempArray[0].slice(0));
+  let typingSpeed = parseInt(tempArray[1]);
+
+  if (isNaN(accuracy) || isNaN(typingSpeed)) {
+    accuracy = 0;
+    typingSpeed = 0;
+  }
+
+  accuracyData.shift();
+  typingSpeedData.shift();
+
+  accuracyData.push(accuracy);
+  typingSpeedData.push(typingSpeed);
+
+  redrawChart(chart, accuracyData, typingSpeedData);
+}
+
+function redrawChart(chart, accuracyData, typingSpeedData) {
+  chart.data.datasets[0].data = typingSpeedData;
+  chart.data.datasets[1].data = accuracyData;
+
+  chart.update();
+}
