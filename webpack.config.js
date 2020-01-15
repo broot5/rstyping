@@ -18,8 +18,11 @@ module.exports = (env, argv) => {
       webassemblyModuleFilename: "rstyping.wasm"
     },
     plugins: [
-      new CopyWebpackPlugin([{ from: "./static", to: distPath }])
-      //new WasmPackPlugin({ crateDirectory: "." })
+      new CopyWebpackPlugin([{ from: "./static", to: distPath }]),
+      new WasmPackPlugin({
+        crateDirectory: ".",
+        extraArgs: "--no-typescript"
+      })
     ],
     watch: argv.mode !== "production"
   };
