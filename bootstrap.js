@@ -1,86 +1,106 @@
-import Chart from "chart.js";
+'use strict';
+
+import Chartjs from 'chart.js';
 
 main();
 
 async function main() {
-  await import("./pkg").then(module => {
+  await import('./pkg').then(module => {
     module.run_app();
   });
 
-  let ctx = document.getElementById("chart");
+  function parseData() {
+    const tempArray = document.querySelector('#result').innerText.split(' ');
 
-  let aChart = new Chart(ctx, {
-    type: "line",
-    data: {
-      labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-      datasets: [
-        {
-          label: "Typing speed",
-          yAxisID: "A",
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        },
-        {
-          label: "Accuracy",
-          yAxisID: "B",
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        }
-      ]
-    },
-    options: {
-      scales: {
-        yAxes: [
-          {
-            id: "A",
-            type: "linear",
-            position: "left",
-            ticks: {
-              max: 1000,
-              min: 0
-            }
-          },
-          {
-            id: "B",
-            type: "linear",
-            position: "right",
-            ticks: {
-              max: 100,
-              min: 0
-            }
-          }
-        ]
-      }
+    let accuracy = parseInt(tempArray[0].slice(0), 10);
+    let typingSpeed = parseInt(tempArray[1], 10);
+
+    if (Number.isNaN(accuracy) || Number.isNaN(typingSpeed)) {
+      accuracy = 0;
+      typingSpeed = 0;
     }
-  });
 
-  let accuracyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  let typingSpeedData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
-  updateData(aChart, accuracyData, typingSpeedData); //For test; call updateData on js available, this line has to remove
-}
-
-function updateData(chart, accuracyData, typingSpeedData) {
-  let tempArray = document.getElementById("result").innerText.split(" ");
-
-  let accuracy = parseInt(tempArray[0].slice(0));
-  let typingSpeed = parseInt(tempArray[1]);
-
-  if (isNaN(accuracy) || isNaN(typingSpeed)) {
-    accuracy = 0;
-    typingSpeed = 0;
+    return { accuracy, typingSpeed };
   }
 
-  accuracyData.shift();
-  typingSpeedData.shift();
+  class Chart {
+    constructor(ctx) {
+      this.ctx = ctx;
+      this.chart = new Chartjs(this.ctx, {
+        type: 'line',
+        data: {
+          labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+          datasets: [
+            {
+              label: 'Typing speed',
+              yAxisID: 'A',
+              data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            },
+            {
+              label: 'Accuracy',
+              yAxisID: 'B',
+              data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            },
+          ],
+        },
+        options: {
+          scales: {
+            yAxes: [
+              {
+                id: 'A',
+                type: 'linear',
+                position: 'left',
+                ticks: {
+                  max: 1000,
+                  min: 0,
+                },
+              },
+              {
+                id: 'B',
+                type: 'linear',
+                position: 'right',
+                ticks: {
+                  max: 100,
+                  min: 0,
+                },
+              },
+            ],
+          },
+        },
+      });
+      this.accuracyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+      this.typingSpeedData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    }
 
-  accuracyData.push(accuracy);
-  typingSpeedData.push(typingSpeed);
+    update() {
+      const { accuracy, typingSpeed } = parseData();
 
-  redrawChart(chart, accuracyData, typingSpeedData);
-}
+      this.accuracyData.shift();
+      this.typingSpeedData.shift();
 
-function redrawChart(chart, accuracyData, typingSpeedData) {
-  chart.data.datasets[0].data = typingSpeedData;
-  chart.data.datasets[1].data = accuracyData;
+      this.accuracyData.push(accuracy);
+      this.typingSpeedData.push(typingSpeed);
 
-  chart.update();
+      this.updateChart();
+    }
+
+    updateChart() {
+      this.chart.data.datasets[0].data = this.typingSpeedData;
+      this.chart.data.datasets[1].data = this.accuracyData;
+
+      this.chart.update();
+    }
+  }
+
+  const mainChart = new Chart(document.querySelector('#chart'));
+
+  window.addEventListener(
+    'keypress',
+    function(event) {
+      if (event.code == 'Enter') {
+        mainChart.update();
+      }
+    },
+    true
+  );
 }
