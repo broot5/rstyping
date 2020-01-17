@@ -94,7 +94,7 @@ async function main() {
 
   const mainChart = new Chart(document.querySelector('#chart'));
 
-  window.addEventListener(
+  document.querySelector('#mainInput').addEventListener(
     'keypress',
     function(event) {
       if (event.code == 'Enter') {
