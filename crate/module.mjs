@@ -3,7 +3,14 @@
 import Chartjs from 'chart.js';
 
 export class Chart {
-  constructor(ctx) {
+  constructor() {
+    this.ctx = null;
+    this.chart = null;
+    this.accuracyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    this.typingSpeedData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  }
+
+  set_init(ctx) {
     this.ctx = document.querySelector(ctx);
     this.chart = new Chartjs(this.ctx, {
       type: 'line',
@@ -47,13 +54,9 @@ export class Chart {
         },
       },
     });
-    this.accuracyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    this.typingSpeedData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   }
 
-  update() {
-    const { accuracy, typingSpeed } = parseData();
-
+  update(accuracy, typingSpeed) {
     this.accuracyData.shift();
     this.typingSpeedData.shift();
 
@@ -69,18 +72,4 @@ export class Chart {
 
     this.chart.update();
   }
-}
-
-export function parseData() {
-  const tempArray = document.querySelector('#result').innerText.split(' ');
-
-  let accuracy = parseInt(tempArray[0].slice(0), 10);
-  let typingSpeed = parseInt(tempArray[1], 10);
-
-  if (Number.isNaN(accuracy) || Number.isNaN(typingSpeed)) {
-    accuracy = 0;
-    typingSpeed = 0;
-  }
-
-  return { accuracy, typingSpeed };
 }
