@@ -4,6 +4,18 @@ mod util;
 use instant::Instant;
 use yew::events::IKeyboardEvent;
 use yew::{html, Component, ComponentLink, Html, ShouldRender};
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen(module = "/module.mjs")]
+extern "C" {
+    type Chart;
+
+    #[wasm_bindgen(constructor)]
+    fn new(arg: String) -> Chart;
+
+    #[wasm_bindgen(method)]
+    fn update(this: &Chart);
+}
 
 pub struct Model {
     value: String,
@@ -13,6 +25,7 @@ pub struct Model {
     timer: Instant,
     elapsed_time: f64,
     result: String,
+    chart: Chart,
 }
 
 pub enum Msg {
@@ -36,6 +49,7 @@ impl Component for Model {
             timer: Instant::now(),
             elapsed_time: 0_f64,
             result: "".into(),
+            chart: Chart::new("#chart".into()),
         }
     }
 
@@ -57,6 +71,10 @@ impl Component for Model {
                 let typing_speed = util::get_typing_speed(&self.value, self.elapsed_time);
 
                 self.result = format!("{}% {}", accuracy, typing_speed);
+
+                //update Chart
+                self.chart = Chart::new("#chart".into());
+                self.chart.update();
 
                 //Change list_index
                 self.list_index += 1;
