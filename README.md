@@ -4,10 +4,6 @@ You can try it [here](https://broot5.github.io/rstyping/dist/).
 
 A typing test program written in rust and js.
 
-:warning: This program's sentences include some of the words of morally wrong people.
-
-:warning: This program only certains korean sentences.
-
 ## Features
 - [x] GUI
 - [x] Showing typing accuracy
