@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.js"],"names":["module","run_app"],"mappings":"AAAA;;AAEA;;;;AACAA,eAAOC,OAAP","file":"rstyping.e31bb0bc.js","sourceRoot":"..","sourcesContent":["'use strict';\n\nimport module from '/crate/Cargo.toml';\nmodule.run_app();\n"]}
