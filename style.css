@@ -26,3 +26,9 @@ input:focus {
 .container {
   margin-top: 5%;
 }
+
+canvas {
+  max-height: 45vh;
+  max-width: 45vw;
+  margin: 0 auto;
+}

@@ -2,17 +2,33 @@ mod text;
 mod util;
 
 use instant::Instant;
+use wasm_bindgen::prelude::*;
 use yew::events::IKeyboardEvent;
 use yew::{html, Component, ComponentLink, Html, ShouldRender};
 
+#[wasm_bindgen(module = "/module.mjs")]
+extern "C" {
+    type Chart;
+
+    #[wasm_bindgen(constructor)]
+    fn new() -> Chart;
+
+    #[wasm_bindgen(method)]
+    fn set_init(this: &Chart, arg: String);
+
+    #[wasm_bindgen(method)]
+    fn update(this: &Chart, accuracy: usize, typing_speed: usize);
+}
+
 pub struct Model {
-    value: String,
     text: String,
-    list: Vec<String>,
-    list_index: usize,
+    input: String,
+    text_list: Vec<String>,
+    text_list_index: usize,
     timer: Instant,
     elapsed_time: f64,
     result: String,
+    chart: Chart,
 }
 
 pub enum Msg {
@@ -29,20 +45,21 @@ impl Component for Model {
         let content = text::texts();
 
         Model {
-            value: "".into(),
             text: "Press Enter to Start".into(),
-            list: util::manufacture_file(&content),
-            list_index: 0,
+            input: "".into(),
+            text_list: util::manufacture_file(&content),
+            text_list_index: 0,
             timer: Instant::now(),
             elapsed_time: 0_f64,
             result: "".into(),
+            chart: Chart::new(),
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             Msg::GetInput(new_value) => {
-                self.value = new_value;
+                self.input = new_value;
 
                 true
             }
@@ -52,21 +69,31 @@ impl Component for Model {
                 self.timer = Instant::now();
 
                 //Check
-                let accuracy =
-                    util::get_accuracy(&self.list.get(self.list_index).unwrap(), &self.value);
-                let typing_speed = util::get_typing_speed(&self.value, self.elapsed_time);
+                let accuracy = util::get_accuracy(
+                    &self.text_list.get(self.text_list_index).unwrap(),
+                    &self.input,
+                );
+                let typing_speed = util::get_typing_speed(&self.input, self.elapsed_time);
 
                 self.result = format!("{}% {}", accuracy, typing_speed);
 
+                //If first time, init the chart
+                if self.text_list_index == 0 {
+                    self.chart.set_init("#chart".into());
+                }
+
                 //Change list_index
-                self.list_index += 1;
-                if self.list_index >= self.list.len() - 1 {
-                    self.list_index = 0;
+                self.text_list_index += 1;
+                if self.text_list_index >= self.text_list.len() - 1 {
+                    self.text_list_index = 0;
                 }
 
                 //init
-                self.value = "".into();
-                self.text = self.list.get(self.list_index).unwrap().into();
+                self.input = "".into();
+                self.text = self.text_list.get(self.text_list_index).unwrap().into();
+
+                //Update chart
+                self.chart.update(accuracy, typing_speed);
 
                 true
             }
@@ -78,19 +105,22 @@ impl Component for Model {
         html! {
             <div class="container">
                 <div>
-                    <label for="input">{&self.text}</label>
+                    <label for="mainInput">{&self.text}</label>
                 </div>
                 <div>
                     <input
                         type="text"
-                        id="input"
-                        value=&self.value
+                        id="mainInput"
+                        value=&self.input
                         oninput=|e| Msg::GetInput(e.value)
                         onkeypress=|e| {
                             if e.key() == "Enter" {Msg::Next} else {Msg::Nope}}/>
                 </div>
                 <div>
-                    <label>{&self.result}</label>
+                    <label id="result">{&self.result}</label>
+                </div>
+                <div>
+                    <canvas id="chart"></canvas>
                 </div>
             </div>
         }

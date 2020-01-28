@@ -1,16 +1,15 @@
 {
-  "private": true,
+  "name": "rstyping",
+  "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --mode development",
-    "build": "webpack --mode production",
-    "start:dev": "webpack-dev-server --mode development"
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
   },
   "devDependencies": {
-    "@wasm-tool/wasm-pack-plugin": "^1.1.0",
-    "copy-webpack-plugin": "^5.1.1",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-wasm.rs": "^1.2.15"
+  },
+  "dependencies": {
+    "chart.js": "^2.9.3"
   }
 }
