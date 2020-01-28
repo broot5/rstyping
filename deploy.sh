@@ -2,7 +2,7 @@
 
 git checkout gh-pages
 git merge master
-yarn install && parcel build index.html --public-url ./rstyping/dist
+yarn install && parcel build index.html --public-url ./
 git add dist/
 git commit -m "deployed on $(date)"
 git push origin gh-pages
