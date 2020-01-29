@@ -3,7 +3,7 @@ label {
   text-align: center;
   line-height: 200%;
   font-size: 2em;
-  margin: 5%;
+  margin: 2%;
 }
 
 #mainInput {
@@ -25,6 +25,6 @@ label {
 
 #chart {
   max-height: 45vh;
-  max-width: 45vw;
+  max-width: 45vmax;
   margin: 0 auto;
 }
