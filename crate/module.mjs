@@ -10,7 +10,7 @@ export class Chart {
     this.typingSpeedData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   }
 
-  set_init(ctx) {
+  init(ctx) {
     this.ctx = document.querySelector(ctx);
     this.chart = new Chartjs(this.ctx, {
       type: 'line',

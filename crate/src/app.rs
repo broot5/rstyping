@@ -14,7 +14,7 @@ extern "C" {
     fn new() -> Chart;
 
     #[wasm_bindgen(method)]
-    fn set_init(this: &Chart, arg: String);
+    fn init(this: &Chart, arg: String);
 
     #[wasm_bindgen(method)]
     fn update(this: &Chart, accuracy: usize, typing_speed: usize);
@@ -79,7 +79,7 @@ impl Component for Model {
 
                 //If first time, init the chart
                 if self.text_list_index == 0 {
-                    self.chart.set_init("#chart".into());
+                    self.chart.init("#chart".into());
                 }
 
                 //Change list_index

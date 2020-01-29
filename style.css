@@ -3,10 +3,10 @@ label {
   text-align: center;
   line-height: 200%;
   font-size: 2em;
-  margin: 5%;
+  margin: 2%;
 }
 
-input {
+#mainInput {
   display: block;
   line-height: 200%;
   font-size: 2em;
@@ -19,16 +19,12 @@ input {
   border-right: 0px;
 }
 
-input:focus {
+#mainInput:focus {
   border-color: #9e9e9e;
 }
 
-.container {
-  margin-top: 5%;
-}
-
-canvas {
+#chart {
   max-height: 45vh;
-  max-width: 45vw;
+  max-width: 45vmax;
   margin: 0 auto;
 }
