@@ -1,7 +1,7 @@
 [package]
 name = "rstyping"
 version = "0.1.0"
-authors = ["broot <bananarobot@naver.com>"]
+authors = ["broot5 <29516943+broot5@users.noreply.github.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
